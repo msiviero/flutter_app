@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           )
         : MaterialApp(
             title: title,
+            theme: theme,
             home: LoginPage(),
           );
   }
