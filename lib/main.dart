@@ -1,38 +1,30 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+
 import "./pages/first_page.dart";
-import "./pages/second_page.dart";
 import "./pages/login_page.dart";
+import "./pages/second_page.dart";
+import "./state/login_state.dart";
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const loggedIn = false;
-    const title = "Learning flutter";
-
-    final theme = ThemeData(
-      primarySwatch: Colors.pink,
+void main() => runApp(
+      ChangeNotifierProvider<LoginState>(
+        child: Root(),
+        create: (BuildContext context) => LoginState(),
+      ),
     );
 
-    return loggedIn
-        ? MaterialApp(
-            title: title,
-            theme: theme,
-            initialRoute: "/",
-            routes: {
-              "/": (context) {
-                return FirstPage();
-              },
-              "/second": (context) {
-                return SecondPage();
-              },
-            },
-          )
-        : MaterialApp(
-            title: title,
-            theme: theme,
-            home: LoginPage(),
-          );
-  }
+class Root extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        title: "Learning flutter",
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
+        home: Provider.of<LoginState>(context).loggedIn()
+            ? FirstPage()
+            : LoginPage(),
+        routes: <String, WidgetBuilder>{
+          '/second': (context) => SecondPage(),
+        },
+      );
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import "package:flutter/material.dart";
+import 'package:flutter_learning/state/login_state.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -22,6 +24,8 @@ class _LoginFormState extends State<LoginForm> {
 
   bool _loading = false;
 
+  _LoginFormState();
+
   String _nonEmpty(value) {
     return value.isEmpty ? "Empty field" : null;
   }
@@ -41,25 +45,29 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 CircularProgressIndicator(),
               ],
-            ))
+            ),
+          )
         : Form(
             key: _formKey,
             child: ListView(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 vertical: 24.0,
                 horizontal: 24.0,
               ),
               children: <Widget>[
-                Hero(
-                  tag: "hero",
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 48.0,
-                    child: Image.asset("assets/images/logo.png"),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: Hero(
+                    tag: "hero",
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 48.0,
+                      child: Image.asset("assets/images/logo.png"),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     validator: _nonEmpty,
@@ -74,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: TextFormField(
                     obscureText: true,
                     validator: _nonEmpty,
@@ -88,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
+                  padding: const EdgeInsets.only(top: 16.0),
                   child: RaisedButton(
                     onPressed: () {
                       final form = _formKey.currentState;
@@ -97,16 +105,10 @@ class _LoginFormState extends State<LoginForm> {
                         setState(() {
                           _loading = true;
                         });
-                        new Timer(const Duration(milliseconds: 4000), () {
-                          setState(() {
-                            _loading = false;
-                          });
-                        });
+                        Provider.of<LoginState>(context, listen: false).login();
                       }
                     },
-                    child: Center(
-                      child: Text("LOGIN"),
-                    ),
+                    child: Center(child: Text("LOGIN")),
                   ),
                 ),
               ],
