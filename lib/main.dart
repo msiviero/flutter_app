@@ -12,28 +12,38 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: AppBar(
-                  bottom: TabBar(
-                    tabs: [
-                      Tab(icon: Icon(Icons.directions_car)),
-                      Tab(icon: Icon(Icons.directions_transit)),
-                    ],
-                  ),
-                  title: Text('Tabs Demo'),
-                ),
-                body: TabBarView(
-                  children: [
-                    FirstTab(),
-                    SecondTab(),
-                  ],
-                ),
-              ),
-            ),
-        "/second": (context) => SecondPage(),
+        "/": (context) {
+          return FirstPage();
+        },
+        "/second": (context) {
+          return SecondPage();
+        },
       },
+    );
+  }
+}
+
+class FirstPage extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+            ],
+          ),
+          title: Text('Tabs Demo'),
+        ),
+        body: TabBarView(
+          children: [
+            FirstTab(),
+            SecondTab(),
+          ],
+        ),
+      ),
     );
   }
 }
