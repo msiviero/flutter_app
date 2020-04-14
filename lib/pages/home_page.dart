@@ -12,10 +12,10 @@ class HomePage extends StatelessWidget {
     return FutureBuilder<LoginInfo>(
       future: Provider.of<LoginState>(context).getLoginInfo(),
       builder: (BuildContext context, AsyncSnapshot<LoginInfo> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done) {
           return snapshot.data.loggedIn ? _tabWidget(context) : LoginPage();
         }
-
         return Scaffold(
           body: Center(
             child: Column(

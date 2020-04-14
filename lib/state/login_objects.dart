@@ -34,4 +34,9 @@ class LoginInfo {
     @required this.loggedIn,
     @required this.token,
   });
+
+  @override
+  String toString() {
+    return "{token=$token, loggedIn=$loggedIn}";
+  }
 }

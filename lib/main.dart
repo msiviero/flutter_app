@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_learning/state/login_state.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import "./global/routes.dart";
@@ -17,9 +18,7 @@ class Root extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       home: ChangeNotifierProvider<LoginState>(
-        create: (BuildContext context) {
-          return LoginState();
-        },
+        create: (BuildContext context) => LoginState(http.Client()),
         child: HomePage(),
       ),
       routes: <String, WidgetBuilder>{

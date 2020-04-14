@@ -1,0 +1,1 @@
+- remember to handle ALL connection failures

@@ -3,23 +3,45 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_learning/state/login_objects.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginState with ChangeNotifier {
+  final Client _httpClient;
+
+  LoginState(this._httpClient);
+
   Future<void> login(String email, String password) async {
-    final http.Response response = await http.post(
-      "https://jsonplaceholder.typicode.com/users",
-      body: jsonEncode(LoginRequest(email: email, password: password).toJson()),
-    );
-    if (response.statusCode == 201) {
-      final preferences = await SharedPreferences.getInstance();
-      await preferences.setString("authToken", "abcd");
-      notifyListeners();
-    } else {
+    const timeout = 5000;
+    try {
+      final response = await _httpClient
+          .post(
+            "https://jsonplaceholder.typicode.com/users",
+            body: jsonEncode(
+              LoginRequest(
+                email: email,
+                password: password,
+              ).toJson(),
+            ),
+          )
+          .timeout(const Duration(milliseconds: timeout));
+      if (response.statusCode == 201) {
+        final preferences = await SharedPreferences.getInstance();
+        await preferences.setString("authToken", "abcd");
+        notifyListeners();
+      } else {
+        throw LoginHttpRequestException(
+          code: response.statusCode,
+          message: response.body,
+        );
+      }
+    } on TimeoutException {
       throw LoginHttpRequestException(
-        code: response.statusCode,
-        message: response.body,
+          message: "Login request timed out [ms=$timeout");
+    } catch (error) {
+      throw LoginHttpRequestException(
+        message:
+            "Generic error: [msg=${error.message} class=${error.runtimeType}]",
       );
     }
   }
@@ -42,7 +64,12 @@ class LoginHttpRequestException implements Exception {
   final String message;
 
   LoginHttpRequestException({
-    @required this.code,
     @required this.message,
+    this.code = 0,
   });
+
+  @override
+  String toString() {
+    return "{code=$code message=$message}";
+  }
 }

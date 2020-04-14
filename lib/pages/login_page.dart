@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
+    print("LoginPage build");
     return Scaffold(
       body: Center(child: LoginForm()),
     );
@@ -110,11 +111,11 @@ class _LoginFormState extends State<LoginForm> {
                             _emailController.text.trim(),
                             _passwordController.text.trim(),
                           );
-                        } catch (e) {
+                        } on LoginHttpRequestException catch (exception) {
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                "Request failed with code ${e.code}",
+                                "La richiesta di rete è fallita [codice=${exception.code} messaggio=${exception.message}]",
                               ),
                             ),
                           );
@@ -128,12 +129,5 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }
