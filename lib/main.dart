@@ -15,7 +15,7 @@ class Root extends StatelessWidget {
     return MaterialApp(
       title: "Learning flutter",
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.pink,
       ),
       home: ChangeNotifierProvider<LoginState>(
         create: (BuildContext context) => LoginState(http.Client()),

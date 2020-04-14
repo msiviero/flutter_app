@@ -61,22 +61,18 @@ class FirstTab extends StatelessWidget {
   }
 }
 
-class SecondTab extends StatelessWidget {
+class OtherTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
-            Text(
-              "First page text",
-              style: Theme.of(context).textTheme.display1,
-            ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, routes.MORE.toString());
+            ListTile(
+              title: Text("Altra pagina"),
+              subtitle: Text("un link ad un'altra pagina"),
+              onTap: () {
+                Navigator.of(context).pushNamed(routes.MORE.toString());
               },
-              child: Text('Go to second screen'),
             ),
           ],
         ),
@@ -92,8 +88,12 @@ _tabWidget(BuildContext context) {
       appBar: AppBar(
         bottom: TabBar(
           tabs: [
-            Tab(icon: Icon(Icons.directions_car)),
-            Tab(icon: Icon(Icons.directions_transit)),
+            Tab(
+              icon: Icon(Icons.home),
+            ),
+            Tab(
+              text: "Altro",
+            ),
           ],
         ),
         title: Text('Tabs Demo'),
@@ -102,7 +102,7 @@ _tabWidget(BuildContext context) {
       body: TabBarView(
         children: [
           FirstTab(),
-          SecondTab(),
+          OtherTab(),
         ],
       ),
     ),
