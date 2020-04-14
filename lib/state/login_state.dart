@@ -25,8 +25,6 @@ class LoginState with ChangeNotifier {
   }
 
   Future<LoginInfo> getLoginInfo() async {
-    await http.get("https://jsonplaceholder.typicode.com/users");
-    print("Rember to remove me");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = await preferences.get("authToken");
     return LoginInfo(loggedIn: token != null, token: token);
