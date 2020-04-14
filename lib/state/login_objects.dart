@@ -13,3 +13,14 @@ class LoginRequest {
       _$LoginRequestFromJson(json);
   Map<String, dynamic> toJson() => _$LoginRequestToJson(this);
 }
+
+@JsonSerializable()
+class LoginResponse {
+  final String token;
+
+  LoginResponse({this.token});
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
+}

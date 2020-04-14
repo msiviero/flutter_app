@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_learning/state/login_objects.dart';
 import 'package:flutter_learning/state/login_state.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -102,22 +103,29 @@ class _LoginFormState extends State<LoginForm> {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       final form = _formKey.currentState;
                       if (form.validate()) {
                         form.save();
-                        setState(() {
-                          _loading = true;
-                        });
-
-                        Provider.of<LoginState>(context, listen: false).login();
-
-                        final serialized = jsonEncode(LoginRequest(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                        ).toJson());
-
-                        print(serialized);
+                        setState(() => _loading = true);
+                        try {
+                          SharedPreferences preferences =
+                              await SharedPreferences.getInstance();
+                          final response = await Provider.of<LoginState>(
+                                  context,
+                                  listen: false)
+                              .login(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
+                          await preferences.setString(
+                              'authToken', response.token);
+                        } catch (e) {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text("Request failed with code ${e.code}"),
+                          ));
+                          setState(() => _loading = false);
+                        }
                       }
                     },
                     child: Center(child: Text("LOGIN")),
