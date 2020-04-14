@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
-import 'package:flutter_learning/pages/login_page.dart';
-import 'package:provider/provider.dart';
+import "package:flutter_learning/pages/login_page.dart";
+import "package:provider/provider.dart";
 
-import '../global/routes.dart';
-import '../state/login_objects.dart';
-import '../state/login_state.dart';
+import "../global/routes.dart";
+import "../state/login_objects.dart";
+import "../state/login_state.dart";
 
 class HomePage extends StatelessWidget {
   @override
@@ -43,16 +43,40 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class FirstTab extends StatelessWidget {
+class CalendarTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Home",
-              style: Theme.of(context).textTheme.display1,
+            Container(
+              child: Text(
+                "Menu here",
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return Container(
+                    child: Center(
+                      child: Card(
+                        child: Column(
+                          children: <Widget>[
+                            const ListTile(
+                              leading: Icon(Icons.event),
+                              title: Text("Event"),
+                              subtitle: Text("event description"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -86,12 +110,15 @@ _tabWidget(BuildContext context) {
     length: 2,
     child: Scaffold(
       appBar: AppBar(
+        title: Text("My App"),
         bottom: TabBar(
           tabs: [
             Tab(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.event),
+              text: "Agenda",
             ),
             Tab(
+              icon: Icon(Icons.list),
               text: "Altro",
             ),
           ],
@@ -100,7 +127,7 @@ _tabWidget(BuildContext context) {
       ),
       body: TabBarView(
         children: [
-          FirstTab(),
+          CalendarTab(),
           OtherTab(),
         ],
       ),
