@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_learning/state/login_state.dart';
 import 'package:provider/provider.dart';
 
+import "./global/routes.dart";
 import "./pages/home_page.dart";
 import "./pages/more_page.dart";
 
@@ -22,7 +23,7 @@ class Root extends StatelessWidget {
         child: HomePage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/more': (context) => MorePage(),
+        routes.MORE.toString(): (context) => MorePage(),
       },
     );
   }

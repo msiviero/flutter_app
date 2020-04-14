@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_learning/pages/login_page.dart';
 import 'package:provider/provider.dart';
 
+import '../global/routes.dart';
 import '../state/login_objects.dart';
 import '../state/login_state.dart';
 
@@ -73,7 +74,7 @@ class SecondTab extends StatelessWidget {
             ),
             RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/second');
+                Navigator.pushNamed(context, routes.MORE.toString());
               },
               child: Text('Go to second screen'),
             ),
