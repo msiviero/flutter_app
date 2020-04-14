@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
-    print("LoginPage build");
     return Scaffold(
       body: Center(child: LoginForm()),
     );
@@ -78,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
                       contentPadding:
                           EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24.0)),
+                          borderRadius: BorderRadius.circular(8.0)),
                     ),
                   ),
                 ),
@@ -93,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                       contentPadding:
                           EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24.0)),
+                          borderRadius: BorderRadius.circular(8.0)),
                     ),
                   ),
                 ),

@@ -51,7 +51,7 @@ class FirstTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "First tab text",
+              "Home",
               style: Theme.of(context).textTheme.display1,
             ),
           ],
@@ -96,7 +96,6 @@ _tabWidget(BuildContext context) {
             ),
           ],
         ),
-        title: Text('Tabs Demo'),
         actions: [_menuActions(context)],
       ),
       body: TabBarView(
