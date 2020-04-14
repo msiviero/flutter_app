@@ -1,6 +1,7 @@
-import 'dart:async';
+import 'dart:convert';
 
 import "package:flutter/material.dart";
+import 'package:flutter_learning/state/login_objects.dart';
 import 'package:flutter_learning/state/login_state.dart';
 import 'package:provider/provider.dart';
 
@@ -22,9 +23,10 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
-  bool _loading = false;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  _LoginFormState();
+  bool _loading = false;
 
   String _nonEmpty(value) {
     return value.isEmpty ? "Empty field" : null;
@@ -69,6 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: TextFormField(
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: _nonEmpty,
                     autofocus: true,
@@ -84,6 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: TextFormField(
+                    controller: _passwordController,
                     obscureText: true,
                     validator: _nonEmpty,
                     decoration: InputDecoration(
@@ -105,7 +109,15 @@ class _LoginFormState extends State<LoginForm> {
                         setState(() {
                           _loading = true;
                         });
+
                         Provider.of<LoginState>(context, listen: false).login();
+
+                        final serialized = jsonEncode(LoginRequest(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                        ).toJson());
+
+                        print(serialized);
                       }
                     },
                     child: Center(child: Text("LOGIN")),
@@ -114,5 +126,12 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
