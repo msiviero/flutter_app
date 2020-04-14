@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import "package:json_annotation/json_annotation.dart";
 
 part "login_objects.g.dart";
@@ -23,4 +24,14 @@ class LoginResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
+}
+
+class LoginInfo {
+  final String token;
+  final bool loggedIn;
+
+  LoginInfo({
+    @required this.loggedIn,
+    @required this.token,
+  });
 }

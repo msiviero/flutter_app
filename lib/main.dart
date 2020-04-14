@@ -1,49 +1,28 @@
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_learning/state/login_state.dart';
+import 'package:provider/provider.dart';
 
-import "./pages/first_page.dart";
-import "./pages/login_page.dart";
-import "./pages/second_page.dart";
-import "./state/login_state.dart";
+import "./pages/home_page.dart";
+import "./pages/more_page.dart";
 
-void main() => runApp(
-      ChangeNotifierProvider<LoginState>(
-        child: Root(),
-        create: (BuildContext context) => LoginState(),
-      ),
-    );
+void main() => runApp(Root());
 
 class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: new Future<String>(() async {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        String token = preferences.get("token");
-        return token != null ? token : "";
-      }),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          String token = snapshot.data;
-          print("token => $token");
-        } else {
-          return MaterialApp(
-            home: Center(child: CircularProgressIndicator()),
-          );
-        }
-        return MaterialApp(
-          title: "Learning flutter",
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-          ),
-          home: Provider.of<LoginState>(context).loggedIn()
-              ? FirstPage()
-              : LoginPage(),
-          routes: <String, WidgetBuilder>{
-            '/second': (context) => SecondPage(),
-          },
-        );
+    return MaterialApp(
+      title: "Learning flutter",
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      home: ChangeNotifierProvider<LoginState>(
+        create: (BuildContext context) {
+          return LoginState();
+        },
+        child: HomePage(),
+      ),
+      routes: <String, WidgetBuilder>{
+        '/more': (context) => MorePage(),
       },
     );
   }

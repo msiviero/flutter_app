@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-class SecondPage extends StatelessWidget {
+class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

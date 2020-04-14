@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_learning/state/login_state.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class _LoginFormState extends State<LoginForm> {
   bool _loading = false;
 
   String _nonEmpty(value) {
-    return value.isEmpty ? "Empty field" : null;
+    return value.isEmpty ? "Campo vuoto" : null;
   }
 
   @override
@@ -61,7 +60,7 @@ class _LoginFormState extends State<LoginForm> {
                     tag: "hero",
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
-                      radius: 48.0,
+                      radius: 80.0,
                       child: Image.asset("assets/images/logo.png"),
                     ),
                   ),
@@ -106,21 +105,19 @@ class _LoginFormState extends State<LoginForm> {
                         form.save();
                         setState(() => _loading = true);
                         try {
-                          SharedPreferences preferences =
-                              await SharedPreferences.getInstance();
-                          final response = await Provider.of<LoginState>(
-                                  context,
-                                  listen: false)
+                          await Provider.of<LoginState>(context, listen: false)
                               .login(
                             _emailController.text.trim(),
                             _passwordController.text.trim(),
                           );
-                          await preferences.setString(
-                              'authToken', response.token);
                         } catch (e) {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text("Request failed with code ${e.code}"),
-                          ));
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Request failed with code ${e.code}",
+                              ),
+                            ),
+                          );
                           setState(() => _loading = false);
                         }
                       }
